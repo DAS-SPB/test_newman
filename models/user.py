@@ -58,9 +58,9 @@ class UserInfo(BaseModel):
     address: UserAddress = Field(..., title="Customer address")
 
     class Config:
-        validate_all = True
+        validate_default = True
         validate_assignment = True
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "customer": {
                     "full_name": "John Doe",
