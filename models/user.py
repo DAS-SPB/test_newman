@@ -7,7 +7,7 @@ class UserData(BaseModel):
         ...,
         min_length=1,
         max_length=50,
-        regex=r"^[A-Za-z'-]+(?: [A-Za-z'-]+)?$",
+        pattern=r"^[A-Za-z'-]+(?: [A-Za-z'-]+)?$",
         title="Full name",
         description="Customer full name",
         example="John Doe"
@@ -33,7 +33,7 @@ class UserAddress(BaseModel):
         ...,
         min_length=1,
         max_length=20,
-        regex=r"^[A-Za-z'-]+(?: [A-Za-z'-]+)?$",
+        pattern=r"^[A-Za-z'-]+(?: [A-Za-z'-]+)?$",
         title="City",
         description="Only latin letters, spaces or hyphens",
         example="San Francisco"
@@ -42,7 +42,7 @@ class UserAddress(BaseModel):
         ...,
         min_length=1,
         max_length=20,
-        regex=r"^[A-Za-z0-9'-]+(?: [A-Za-z0-9'-]+)?$",
+        pattern=r"^[A-Za-z0-9'-]+(?: [A-Za-z0-9'-]+)?$",
         title="Postal code",
         description="Latin letters, digits, hyphens or spaces",
         example="94016-ABC"
