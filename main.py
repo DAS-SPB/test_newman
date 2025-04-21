@@ -24,6 +24,6 @@ simple_app.include_router(router=create_user.router, prefix=PREFIX)
 simple_app.include_router(router=get_user.router, prefix=PREFIX)
 
 
-@simple_app.get("/simple_app/health")
+@simple_app.get(f"{PREFIX}/health")
 def healthcheck():
     return {"status": "OK"}
