@@ -1,0 +1,33 @@
+services:
+  simple_app:
+    build: .
+    container_name: simple_app
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/simple_app/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+#  tests:
+#    image: postman/newman:latest
+#    container_name: newman_tests
+#    depends_on:
+#      api:
+#        condition: service_healthy
+#    volumes:
+#      - ./:/etc/newman
+#    command:
+#      [
+#        "run",
+#        "postman_collection.json",
+#        "--environment",
+#        "postman_environment.json",
+#        "--reporters",
+#        "cli,html,junit",
+#        "--reporter-html-export",
+#        "reports/report.html",
+#        "--reporter-junit-export",
+#        "reports/junit.xml"
+#      ]
