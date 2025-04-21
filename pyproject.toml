@@ -11,7 +11,10 @@ fastapi = "^0.115.12"
 pydantic = "^2.11.3"
 pydantic-settings = "^2.9.1"
 pydantic-extra-types = "^2.10.3"
+uvicorn = "^0.34.2"
 
+[tool.poetry.extras]
+pycountry = ["pycountry"]
 
 [build-system]
 requires = ["poetry-core"]
