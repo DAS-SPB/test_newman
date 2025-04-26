@@ -1,0 +1,8 @@
+[
+  {
+    "testCase": "Existing customer_id",
+    "method": "GET",
+    "expectedStatus": 200,
+    "expectedSchema": "createdUser"
+  }
+]

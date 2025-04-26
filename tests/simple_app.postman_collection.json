@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "44aa140e-c850-4684-8d58-075c54309881",
+		"name": "simple_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19859167"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Сохраняем customer_id в окружение, если он есть\r",
+							"(() => {\r",
+							"  let responseJson;\r",
+							"  try { responseJson = pm.response.json(); }\r",
+							"  catch(e) { return; }\r",
+							"\r",
+							"  if (responseJson.customer_id) {\r",
+							"    pm.environment.set('customerId', responseJson.customer_id);\r",
+							"  }\r",
+							"})();\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"(() => {\r",
+							"  // Тело запроса\r",
+							"  const d = pm.iterationData.toJSON();\r",
+							"  const body = {};\r",
+							"\r",
+							"  if (d.customer) body.customer = d.customer;\r",
+							"  if (d.address)  body.address  = d.address;\r",
+							"\r",
+							"  pm.request.body.raw = JSON.stringify(body, null, 2);\r",
+							"})();\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{apiKey}}",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/{{prefix}}/create_user",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"create_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"(() => {\r",
+							"  // customer_id\r",
+							"  const d = pm.iterationData.toJSON();\r",
+							"\r",
+							"  const id = d.customer_id || pm.environment.get('customerId');\r",
+							"  pm.variables.set('customerId', id);\r",
+							"})();\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{host}}/{{prefix}}/get_user/{{customerId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{prefix}}",
+						"get_user",
+						"{{customerId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"(() => {\r",
+					"  const d = pm.iterationData.toJSON();\r",
+					"\r",
+					"  // 1) Метод\r",
+					"  if (d.method) {\r",
+					"    pm.request.method = d.method;\r",
+					"  }\r",
+					"\r",
+					"  // 2) mime-type\r",
+					"  if (['POST','PUT','PATCH'].includes(pm.request.method.toUpperCase())) {\r",
+					"    pm.request.headers.upsert({\r",
+					"      key: 'Content-Type',\r",
+					"      value: 'application/json'\r",
+					"    });\r",
+					"  }\r",
+					"\r",
+					"  // 3) Заголовок x-api-key\r",
+					"  if (d.omitApiKey) {\r",
+					"      pm.request.headers.remove('x-api-key');}\r",
+					"    \r",
+					"    else {\r",
+					"        pm.request.headers.upsert({ \r",
+					"            key:'x-api-key', \r",
+					"            value: d.invalidApiKey || pm.environment.get('apiKey') \r",
+					"            });\r",
+					"  }\r",
+					"\r",
+					"})();\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"(() => {\r",
+					"  const d = pm.iterationData.toJSON();\r",
+					"  let body = {};\r",
+					"\r",
+					"  try {\r",
+					"    body = pm.response.json();\r",
+					"  } catch(e){}\r",
+					"\r",
+					"  // 1) Статус\r",
+					"  pm.test(`[${d.testCase}] Status is ${d.expectedStatus}`, () => {\r",
+					"    pm.response.to.have.status(d.expectedStatus);\r",
+					"  });\r",
+					"\r",
+					"  // 2) JSON-schema\r",
+					"  const schemaStr = pm.collectionVariables.get(d.expectedSchema);\r",
+					"  if (schemaStr) {\r",
+					"    const schema = JSON.parse(schemaStr);\r",
+					"    pm.test(`[${d.testCase}] Matches schema ${d.expectedSchema}`, () => {\r",
+					"      pm.response.to.have.jsonSchema(schema);\r",
+					"    });\r",
+					"  }\r",
+					"\r",
+					"  // 3) Точные значения\r",
+					"  if (d.expectedBody) {\r",
+					"    Object.entries(d.expectedBody).forEach(([k, v]) => {\r",
+					"      pm.test(`[${d.testCase}] ${k} == ${v}`, () => {\r",
+					"        pm.expect(body[k]).to.eql(v);\r",
+					"      });\r",
+					"    });\r",
+					"  }\r",
+					"})();\r",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "createUserSuccess",
+			"value": "{\\\"type\\\":\\\"object\\\",\\\"required\\\":[\\\"customer_id\\\"],\\\"properties\\\":{\\\"customer_id\\\":{\\\"type\\\":\\\"string\\\"}}}",
+			"type": "string"
+		},
+		{
+			"key": "errorResponse",
+			"value": "{\\\"type\\\":\\\"object\\\",\\\"required\\\":[\\\"message\\\",\\\"error_code\\\"],\\\"properties\\\":{\\\"message\\\":{\\\"type\\\":\\\"string\\\"},\\\"error_code\\\":{\\\"type\\\":\\\"number\\\"}}}",
+			"type": "string"
+		},
+		{
+			"key": "createdUser",
+			"value": "{\\\"type\\\":\\\"object\\\",\\\"required\\\":[\\\"customer\\\",\\\"address\\\"],\\\"properties\\\":{\\\"customer\\\":{\\\"type\\\":\\\"object\\\",\\\"required\\\":[\\\"full_name\\\",\\\"email\\\"],\\\"properties\\\":{\\\"full_name\\\":{\\\"type\\\":\\\"string\\\"},\\\"email\\\":{\\\"type\\\":\\\"string\\\"}}},\\\"address\\\":{\\\"type\\\":\\\"object\\\",\\\"required\\\":[\\\"country\\\",\\\"city\\\",\\\"postal_code\\\"],\\\"properties\\\":{\\\"country\\\":{\\\"type\\\":\\\"string\\\"},\\\"city\\\":{\\\"type\\\":\\\"string\\\"},\\\"postal_code\\\":{\\\"type\\\":\\\"string\\\"}}}}}",
+			"type": "string"
+		}
+	]
+}

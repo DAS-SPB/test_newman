@@ -1,0 +1,57 @@
+[
+  {
+    "testCase": "Invali method",
+    "method": "GET",
+    "customer": { "full_name":"John Doe","email":"john.doe@example.com" },
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 405,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Method Not Allowed","error_code":105 }
+  },
+  {
+    "testCase": "Empty full_name",
+    "method": "POST",
+    "customer": { "full_name":"","email":"john.doe@example.com" },
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 400,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Invalid request","error_code":102 }
+  },
+  {
+    "testCase": "Absent full_name",
+    "method": "POST",
+    "customer": { "email":"john.doe@example.com" },
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 400,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Invalid request","error_code":102 }
+  },
+  {
+    "testCase": "Absent customer",
+    "method": "POST",
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 400,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Invalid request","error_code":102 }
+  },
+  {
+    "testCase": "No x-api-key header",
+    "method": "POST",
+    "omitApiKey": true,
+    "customer": { "full_name":"John Doe","email":"john.doe@example.com" },
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 401,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Missing x-api-key header","error_code":101 }
+  },
+  {
+    "testCase": "Invalid x-api-key header",
+    "method": "POST",
+    "invalidApiKey": "invalid_api_key",
+    "customer": { "full_name":"John Doe","email":"john.doe@example.com" },
+    "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },
+    "expectedStatus": 401,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Invalid x-api-key header","error_code":101 }
+  }
+]

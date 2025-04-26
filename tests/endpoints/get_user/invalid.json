@@ -1,0 +1,33 @@
+[
+  {
+    "testCase": "Not existing customer_id",
+    "method": "GET",
+    "customer_id": "not_exist_id",
+    "expectedStatus": 404,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"User not found","error_code":103 }
+  },
+  {
+    "testCase": "Invalid method",
+    "method": "POST",
+    "expectedStatus": 405,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Method Not Allowed","error_code":105 }
+  },
+    {
+    "testCase": "No x-api-key header",
+    "method": "GET",
+    "omitApiKey": true,
+    "expectedStatus": 401,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Missing x-api-key header","error_code":101 }
+  },
+  {
+    "testCase": "Invalid x-api-key header",
+    "method": "GET",
+    "invalidApiKey": "invalid_api_key",
+    "expectedStatus": 401,
+    "expectedSchema": "errorResponse",
+    "expectedBody": { "message":"Invalid x-api-key header","error_code":101 }
+  }
+]
