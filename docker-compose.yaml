@@ -1,3 +1,14 @@
+version: "3.8"
+
+x-newman-defaults: &newman_defaults
+  image: postman/newman:latest
+  depends_on:
+    simple_app:
+      condition: service_healthy
+  volumes:
+    - ./tests:/etc/newman/tests:rw
+  working_dir: /etc/newman/tests
+
 services:
   simple_app:
     build: .
@@ -10,14 +21,9 @@ services:
       timeout: 5s
       retries: 3
 
-  newman:
-    image: postman/newman:latest
-    container_name: newman_tests
-    depends_on:
-      - simple_app
-    volumes:
-      - ./tests:/etc/newman/tests:rw
-    working_dir: /etc/newman/tests
+  newman_create:
+    <<: *newman_defaults
+    container_name: newman_tests_create_user
     command:
       - run
       - simple_app.postman_collection.json
@@ -25,13 +31,26 @@ services:
       - simple_app_env.postman_environment.json
       - --folder
       - create_user
-      - --folder
-      - get_user
       - --iteration-data
       - endpoints/create_user/test_data.json
+      - --reporters
+      - cli,junit
+      - --reporter-junit-export
+      - reports/create_user.junit.xml
+
+  newman_get:
+    <<: *newman_defaults
+    container_name: newman_tests_get_user
+    command:
+      - run
+      - simple_app.postman_collection.json
+      - --environment
+      - simple_app_env.postman_environment.json
+      - --folder
+      - get_user
       - --iteration-data
       - endpoints/get_user/test_data.json
       - --reporters
       - cli,junit
       - --reporter-junit-export
-      - reports/all_tests.junit.xml
+      - reports/get_user.junit.xml
