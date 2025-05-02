@@ -9,6 +9,8 @@ on:
 
 jobs:
   e2e:
+    timeout-minutes: 5
+
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +27,6 @@ jobs:
 
       - name: Build and start simple_app
         run: docker compose up -d simple_app
-
-      - name: Wait for API to be up
-        run: |
-          until curl -sf http://localhost:8000/simple_app/health; do
-            echo "waiting…"
-            sleep 2
-          done
 
       - name: Run E2E tests
         run: npm run e2e
