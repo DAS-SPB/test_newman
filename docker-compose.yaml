@@ -6,37 +6,32 @@ services:
       - "8000:8000"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/simple_app/health" ]
-      interval: 5s
-      timeout: 2s
-      retries: 5
+      interval: 15s
+      timeout: 5s
+      retries: 3
 
   newman:
     image: postman/newman:latest
     container_name: newman_tests
     depends_on:
-      simple_app:
-        condition: service_healthy
+      - simple_app
     volumes:
-      - ./tests:/etc/newman:ro
-      - ./tests/reports:/etc/newman/tests/reports
+      - ./tests:/etc/newman/tests:rw
     working_dir: /etc/newman/tests
-    entrypoint: ["sh", "-c"]
-    command: >-
-      echo '🛠 Starting Create User tests…' &&
-      newman run simple_app.postman_collection.json \
-        --environment simple_app_env.postman_environment.json \
-        --folder create_user \
-        --iteration-data endpoints/create_user/valid.json \
-        --iteration-data endpoints/create_user/invalid.json \
-        --reporters cli,junit,html \
-        --reporter-junit-export reports/create_user.junit.xml \
-        --reporter-html-export reports/create_user.html &&
-      echo '🛠 Starting Get User tests…' &&
-      newman run simple_app.postman_collection.json \
-        --environment simple_app_env.postman_environment.json \
-        --folder get_user \
-        --iteration-data endpoints/get_user/valid.json \
-        --iteration-data endpoints/get_user/invalid.json \
-        --reporters cli,junit,html \
-        --reporter-junit-export reports/get_user.junit.xml \
-        --reporter-html-export reports/get_user.html
+    command:
+      - run
+      - simple_app.postman_collection.json
+      - --environment
+      - simple_app_env.postman_environment.json
+      - --folder
+      - create_user
+      - --folder
+      - get_user
+      - --iteration-data
+      - endpoints/create_user/test_data.json
+      - --iteration-data
+      - endpoints/get_user/test_data.json
+      - --reporters
+      - cli,junit
+      - --reporter-junit-export
+      - reports/all_tests.junit.xml
