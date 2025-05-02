@@ -8,7 +8,7 @@
     "expectedSchema": "createUserSuccess"
   },
   {
-    "testCase": "Invali method",
+    "testCase": "Invalid method",
     "method": "GET",
     "customer": { "full_name":"John Doe","email":"john.doe@example.com" },
     "address":  { "country":"USA","city":"San Francisco","postal_code":"94016-ABC" },

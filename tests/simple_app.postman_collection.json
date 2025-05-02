@@ -13,6 +13,25 @@
 					"name": "Create user",
 					"event": [
 						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"(() => {\r",
+									"  // Тело запроса\r",
+									"  const d = pm.iterationData.toObject();\r",
+									"  const body = {};\r",
+									"\r",
+									"  if (d.customer) body.customer = d.customer;\r",
+									"  if (d.address)  body.address  = d.address;\r",
+									"\r",
+									"  pm.request.body.raw = JSON.stringify(body, null, 2);\r",
+									"})();"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
 							"listen": "test",
 							"script": {
 								"exec": [
@@ -25,28 +44,7 @@
 									"  if (responseJson.customer_id) {\r",
 									"    pm.environment.set('customerId', responseJson.customer_id);\r",
 									"  }\r",
-									"})();\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"(() => {\r",
-									"  // Тело запроса\r",
-									"  const d = pm.iterationData.toJSON();\r",
-									"  const body = {};\r",
-									"\r",
-									"  if (d.customer) body.customer = d.customer;\r",
-									"  if (d.address)  body.address  = d.address;\r",
-									"\r",
-									"  pm.request.body.raw = JSON.stringify(body, null, 2);\r",
-									"})();\r",
-									""
+									"})();"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -208,7 +206,7 @@
 					"  if (d.expectedSchema) {\r",
 					"    const schema = pm.collectionVariables.get(d.expectedSchema);\r",
 					"    pm.test(`[${d.testCase}] Matches schema ${d.expectedSchema}`, () => {\r",
-					"      pm.response.to.have.jsonSchema(schema);\r",
+					"      pm.response.to.have.jsonSchema(JSON.parse(schema));\r",
 					"    });\r",
 					"  }\r",
 					"\r",
