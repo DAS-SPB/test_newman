@@ -1,5 +1,11 @@
 [
   {
+    "testCase": "Existing customer_id",
+    "method": "GET",
+    "expectedStatus": 200,
+    "expectedSchema": "createdUser"
+  },
+  {
     "testCase": "Not existing customer_id",
     "method": "GET",
     "customer_id": "not_exist_id",

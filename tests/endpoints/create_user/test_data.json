@@ -1,5 +1,13 @@
 [
   {
+    "testCase": "Valid inputs",
+    "method": "POST",
+    "customer": { "full_name": "John Doe", "email": "john.doe@example.com" },
+    "address": { "country": "USA","city": "San Francisco","postal_code": "94016-ABC" },
+    "expectedStatus": 201,
+    "expectedSchema": "createUserSuccess"
+  },
+  {
     "testCase": "Invali method",
     "method": "GET",
     "customer": { "full_name":"John Doe","email":"john.doe@example.com" },
