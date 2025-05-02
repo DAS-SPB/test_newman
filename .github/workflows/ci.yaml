@@ -24,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Build and start simple_app
-        run: docker-compose up -d simple_app
+        run: docker compose up -d simple_app
 
       - name: Wait for API to be up
         run: |
@@ -38,7 +38,7 @@ jobs:
 
       - name: Stop services
         if: always()
-        run: docker-compose down
+        run: docker compose down
 
       - name: Upload JUnit XML reports
         if: always()
