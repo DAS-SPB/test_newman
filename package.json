@@ -1,0 +1,21 @@
+{
+  "name": "test_newman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "e2e:create_user": "newman run tests/collection/simple_app.postman_collection.json --environment tests/envs/simple_app_env.postman_environment.json --folder create_user --iteration-data tests/scenarios/create_user_test_data.json --export-environment tests/envs/tmp_env.json --reporters cli,junit,htmlextra --reporter-junit-export tests/reports/create_user.junit.xml --reporter-htmlextra-export tests/reports/create_user.html",
+    "e2e:get_user": "newman run tests/collection/simple_app.postman_collection.json --environment tests/envs/tmp_env.json --folder get_user --iteration-data tests/scenarios/get_user_test_data.json --reporters cli,junit,htmlextra --reporter-junit-export tests/reports/get_user.junit.xml --reporter-htmlextra-export tests/reports/get_user.html",
+    "e2e": "npm run e2e:create_user & npm run e2e:get_user"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

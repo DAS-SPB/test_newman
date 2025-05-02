@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="simple_app" tests="5" time="0.074">
+  <testsuite name="get_user / Get user" id="7d73b34d-b418-4db0-afc9-d82a952512e2" timestamp="2025-05-02T11:57:44.108Z" tests="4" failures="3" errors="0" time="0.015">
+    <testcase name="[Existing customer_id] Status is 200" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Existing customer_id] Matches schema createdUser" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Not existing customer_id] Status is 404" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Not existing customer_id] Matches schema errorResponse" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Not existing customer_id] message == User not found" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Not existing customer_id] error_code == 103" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid method] Status is 405" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid method] Matches schema errorResponse" time="0.007" classname="GetUserGetUser">
+      <failure type="AssertionFailure" message="expected data to satisfy schema but found following errors: &#xA;data should have required property 'message', data should have required property 'error_code'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 44aa140e-c850-4684-8d58-075c54309881.]]>
+        <![CDATA[Collection name: simple_app.]]>
+        <![CDATA[Request name: get_user / Get user.]]>
+        <![CDATA[Test description: [Invalid method] Matches schema errorResponse.]]>
+        <![CDATA[Error message: expected data to satisfy schema but found following errors: 
+data should have required property 'message', data should have required property 'error_code'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected data to satisfy schema but found following errors: 
+data should have required property 'message', data should have required property 'error_code'
+   at Object.eval sandbox-script.js:2:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="[Invalid method] message == Method Not Allowed" time="0.007" classname="GetUserGetUser">
+      <failure type="AssertionFailure" message="expected undefined to deeply equal 'Method Not Allowed'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 44aa140e-c850-4684-8d58-075c54309881.]]>
+        <![CDATA[Collection name: simple_app.]]>
+        <![CDATA[Request name: get_user / Get user.]]>
+        <![CDATA[Test description: [Invalid method] message == Method Not Allowed.]]>
+        <![CDATA[Error message: expected undefined to deeply equal 'Method Not Allowed'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to deeply equal 'Method Not Allowed'
+   at Object.eval sandbox-script.js:3:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="[Invalid method] error_code == 105" time="0.007" classname="GetUserGetUser">
+      <failure type="AssertionFailure" message="expected undefined to deeply equal 105">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 44aa140e-c850-4684-8d58-075c54309881.]]>
+        <![CDATA[Collection name: simple_app.]]>
+        <![CDATA[Request name: get_user / Get user.]]>
+        <![CDATA[Test description: [Invalid method] error_code == 105.]]>
+        <![CDATA[Error message: expected undefined to deeply equal 105.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to deeply equal 105
+   at Object.eval sandbox-script.js:4:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="[No x-api-key header] Status is 401" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[No x-api-key header] Matches schema errorResponse" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[No x-api-key header] message == Missing x-api-key header" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[No x-api-key header] error_code == 101" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid x-api-key header] Status is 401" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid x-api-key header] Matches schema errorResponse" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid x-api-key header] message == Invalid x-api-key header" time="0.007" classname="GetUserGetUser"/>
+    <testcase name="[Invalid x-api-key header] error_code == 101" time="0.007" classname="GetUserGetUser"/>
+  </testsuite>
+</testsuites>

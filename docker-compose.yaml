@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  simple_app:
+    build: .
+    container_name: simple_app
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: [ "CMD","curl","-f","http://localhost:8000/simple_app/health" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
