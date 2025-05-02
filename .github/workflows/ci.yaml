@@ -10,6 +10,7 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,8 +24,7 @@ jobs:
         run: npm ci
 
       - name: Build and start simple_app
-        run: |
-          docker-compose up -d simple_app
+        run: docker-compose up -d simple_app
 
       - name: Wait for API to be up
         run: |
@@ -42,14 +42,14 @@ jobs:
 
       - name: Upload JUnit XML reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: "actions/upload-artifact@v3"
         with:
           name: junit-reports
           path: tests/reports/*.junit.xml
 
       - name: Upload HTML reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: "actions/upload-artifact@v3"
         with:
           name: html-reports
           path: tests/reports/*.html
