@@ -42,14 +42,14 @@ jobs:
 
       - name: Upload JUnit XML reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: junit-reports
           path: tests/reports/*.junit.xml
 
       - name: Upload HTML reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: html-reports
           path: tests/reports/*.html
