@@ -1,0 +1,55 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build and start simple_app
+        run: |
+          docker-compose up -d simple_app
+
+      - name: Wait for API to be up
+        run: |
+          until curl -sf http://localhost:8000/simple_app/health; do
+            echo "waiting…"
+            sleep 2
+          done
+
+      - name: Run E2E tests
+        run: npm run e2e
+
+      - name: Stop services
+        if: always()
+        run: docker-compose down
+
+      - name: Upload JUnit XML reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-reports
+          path: tests/reports/*.junit.xml
+
+      - name: Upload HTML reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-reports
+          path: tests/reports/*.html
