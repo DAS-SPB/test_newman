@@ -1,6 +1,8 @@
 ![Last commit](https://img.shields.io/github/last-commit/DAS-SPB/test_newman?color=9cf\&logo=git)
 ![GitHub top language](https://img.shields.io/github/languages/top/DAS-SPB/test_newman?color=blue)
-![CI](https://github.com/DAS-SPB/test_newman/actions/workflows/ci.yml/badge.svg)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DAS-SPB/test_newman/ci.yaml?branch=master)
+
+Heads‑up🚦: The CI badge may be red at the moment—some checks are intentionally failing to showcase response‑schema validation in action.
 
 # Newman E2E Testing Demo
 
