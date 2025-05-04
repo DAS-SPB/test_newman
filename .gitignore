@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# regression reports, data
+tests/reports/*
+/tests/envs/tmp_env.json
